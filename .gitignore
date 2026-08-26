@@ -1,0 +1,10 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+
+# Portable build toolchain downloaded by the Settings page (JDK, Android SDK, Gradle, cache)
+**/tools/
+**/controller.cfg

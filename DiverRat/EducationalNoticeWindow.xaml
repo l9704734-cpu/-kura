@@ -1,0 +1,66 @@
+<Window x:Class="Diver_RaT.EducationalNoticeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:ui="clr-namespace:Diver_RaT"
+        Title="Educational Use Only" Width="580" SizeToContent="Height"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="{StaticResource WindowBgBrush}"
+        Foreground="#E6E8EF"
+        KeyDown="Window_KeyDown">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" GlassFrameThickness="1" ResizeBorderThickness="6"
+                      CornerRadius="8" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <ui:CustomTitleBar x:Name="TitleBar" Grid.Row="0" Title="Educational Use Only"/>
+
+        <StackPanel Grid.Row="1" Margin="28,22,28,24">
+            <Border Background="#1AF04A5B" BorderBrush="#55F04A5B" BorderThickness="1"
+                    CornerRadius="8" Padding="16,12" HorizontalAlignment="Center">
+                <TextBlock Text="EDUCATIONAL USE ONLY" FontSize="16" FontWeight="Bold"
+                           Foreground="#FF8A93"/>
+            </Border>
+
+            <TextBlock Margin="0,18,0,0" TextWrapping="Wrap" FontSize="13"
+                       Foreground="{StaticResource CellFg}" LineHeight="21">
+                Diver Rat is a remote administration and monitoring framework built strictly for
+                <Run FontWeight="SemiBold" Foreground="{StaticResource LimeBrush}">educational and research purposes only</Run>.
+                It was never created with malicious or bad intent.
+            </TextBlock>
+
+            <TextBlock Margin="0,12,0,0" TextWrapping="Wrap" FontSize="13"
+                       Foreground="{StaticResource CellFg}" LineHeight="21">
+                This software is intended to be used solely by security students, researchers, and
+                professionals - and only on devices you own or on which you have the owner's
+                explicit, informed permission.
+            </TextBlock>
+
+            <TextBlock Margin="0,12,0,0" TextWrapping="Wrap" FontSize="13"
+                       Foreground="{StaticResource CellFg}" LineHeight="21">
+                Unauthorized use of this tool - such as monitoring or controlling a device without
+                consent - is illegal. If Diver Rat is ever found to be used in an illegal or
+                unauthorized way, the developer has no part in, and no responsibility for, that
+                use. You alone are responsible for how and where you run this software.
+            </TextBlock>
+
+            <TextBlock x:Name="CountdownText" Margin="0,18,0,0" FontSize="12"
+                       Foreground="{StaticResource MutedBrush}" HorizontalAlignment="Center"/>
+
+            <Button x:Name="ContinueButton" Content="I Understand - Continue" Width="220" Height="36"
+                    Margin="0,14,0,0" HorizontalAlignment="Center"
+                    Click="ContinueButton_Click" IsDefault="True"/>
+        </StackPanel>
+
+        <Border CornerRadius="8" BorderBrush="{StaticResource WindowFrameBrush}" BorderThickness="2"
+                Panel.ZIndex="9999" Grid.RowSpan="2" IsHitTestVisible="False"/>
+    </Grid>
+</Window>

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Diver RaT": {
+      "commandName": "Project",
+      "jsWebView2Debugging": false,
+      "sqlDebugging": false
+    }
+  }
+}

